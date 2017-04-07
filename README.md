@@ -30,6 +30,13 @@ Its so simple one using symfony2 and mysql database using Doctrine ORM to handle
         
        -  Then download or clone the project folder.
        
+       - Run :
+              cd /var/www/YOUR-FOLDER-NAME
+              composer install
+         after composer finish of install all vendors you should go to 
+               <  /app/config/parameters.yml   > and add at te end of the file this line
+               admin_skin: skin-blue
+       
        -  You will find in the project folder file named ==>>  cart.sql
            create database call it [car] and then import this file to it
            if you wanna name database any other name so do it but before start project go to
