@@ -1,0 +1,154 @@
+<?php
+// src/AppBundle/Entity/User.php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+#use AppBundle\Entity\User;
+#use AppBundle\Entity\Product;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="cart")
+ */
+class Cart
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="decimal", scale=2)
+     */
+    private $total_price;
+
+      /**
+     * @ORM\OneToOne(targetEntity="User", inversedBy="cart")
+     * @ORM\JoinColumn(name="customer_id", referencedColumnName="id")
+     */
+    private $user;
+
+     /** @ORM\OneToMany(targetEntity="Entity\Shipping", mappedBy="store") */
+    protected $cartProducts;
+
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set total_price
+     *
+     * @param string $totalPrice
+     * @return Cart
+     */
+    public function setTotalPrice($totalPrice)
+    {
+        $this->total_price = $totalPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get total_price
+     *
+     * @return string 
+     */
+    public function getTotalPrice()
+    {
+        return $this->total_price;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     * @return Cart
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer 
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     * @return Cart
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Add products
+     *
+     * @param \AppBundle\Entity\Product $products
+     * @return Cart
+     */
+    public function addProduct(\AppBundle\Entity\Product $products)
+    {
+        $this->products[] = $products;
+
+        return $this;
+    }
+
+    /**
+     * Remove products
+     *
+     * @param \AppBundle\Entity\Product $products
+     */
+    public function removeProduct(\AppBundle\Entity\Product $products)
+    {
+        $this->products->removeElement($products);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+}

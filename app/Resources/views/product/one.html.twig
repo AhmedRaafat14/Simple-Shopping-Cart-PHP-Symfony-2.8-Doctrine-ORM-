@@ -1,0 +1,92 @@
+{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
+
+{#  This block title which show on the top of nav-menu  #}
+{% block title %}
+  {{ product.getName() }}
+{% endblock %}
+
+{#  This is the start of nav-menu bar which have to column ['Products ==> To browse products', 'Products ==> To browse cart data'] #}
+{% block avanzu_sidebar %}
+<li class="treeview active">
+{% if app.user %}
+     {# show logged username #}
+     <br>
+     <button class="btn btn-block btn-success btn-sm">{{ app.user.username }}</button>
+{% endif %}
+<br><br><br>
+    <form action='{{ path('show products') }}'>
+      <button type="submit" class="btn btn-block btn-primary btn-sm">Products</button>
+    </form>
+<br>
+    <form action=''>
+      <button type="submit" class="btn btn-block btn-primary btn-sm">Cart</button>
+    </form>
+ </li>
+
+ <br>
+ {# VALIDATE IF USER LOGGED OR NOT #}
+ {% if app.user %}
+      {# user is logged in  #}
+      {# when user click on button call logout method  #}
+      {# in FOSUserBundle to make logout from the application  #}
+      {# using ['logout_path('main')'] which generate its url  #}
+
+      <form action='{{ logout_path('main') }}'>
+        <button type="submit" class="btn btn-block btn-primary btn-sm">Log Out</button>
+      </form>
+ {% else %}
+    {# user is not logged in  #}
+    {# when user click on button call login form  #}
+    {# using default login calling in FOSUSERBUNDLE   #}
+    {#      ['fos_user_security_login']   #}
+    {# using path() method to generate url to it   #}
+    <form action='{{ path('fos_user_security_login') }}'>
+      <button type="submit" class="btn btn-block btn-primary btn-sm">Log In</button>
+    </form>
+    <br>
+    {# when user click on button call register form  #}
+    {# using default register calling in FOSUSERBUNDLE   #}
+    {#      ['fos_user_registration_register']   #}
+    {# using path() method to generate url to it   #}
+    <form action='{{ path('fos_user_registration_register') }}'>
+      <button type="submit" class="btn btn-block btn-primary btn-sm">Register</button>
+    </form>
+ {% endif %}
+
+{% endblock %}
+{#  This end of nav-menu bar  #}
+
+{#  this is the title of show product view #}
+{% block page_title %}
+  {{ product.getName() }}
+  <form action='{{ path('add_to_cart', {'productId': product.getId()}) }}'>
+      <button type="submit" class="btn btn-primary pull-right">
+          <i class="fa fa-check-square"></i>Add To Cart
+      </button>
+  </form>
+{% endblock %}
+
+{#  this is the sub-title of show product view #}
+{% block page_subtitle %}
+    {{ product.getPrice() }} $
+{% endblock %}
+
+{#  this is the content of show product view #}
+{% block page_content %}
+
+ <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">
+                <!-- Main content -->
+                <section class="content">
+                 <img style='align:center; width: 450px; height: 250px' src='{{  asset('bundles/uploads/' ~ product.getPath()) }}' alt='' />
+              <blockquote>
+              <small>{{ product.getPrice() }}  $</small>
+              <small style='float: right !important;'>{{ product.getDate()|date('Y-m-d') }} </small>
+
+
+              </blockquote>
+              <p>{{ product.getDescription() }}</p>
+
+                </section><!-- /.content -->
+            </aside><!-- /.right-side -->
+{% endblock  %}

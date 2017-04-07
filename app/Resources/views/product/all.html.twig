@@ -1,0 +1,88 @@
+{% extends 'AvanzuAdminThemeBundle:layout:base-layout.html.twig' %}
+
+{#  This page title which show on the top of nav-menu  #}
+{% block title %}
+  Products
+{% endblock %}
+
+{#  This block title which show on the top of nav-menu  #}
+{% block page_title %}
+  Products
+{% endblock %}
+
+
+{#  This is the start of nav-menu bar which have to column ['Products ==> To browse products', 'Products ==> To browse cart data'] #}
+{% block avanzu_sidebar %}
+<li class="treeview active">
+{% if app.user %}
+     {# show logged username #}
+     <br>
+     <button class="btn btn-block btn-success btn-sm">{{ app.user.username }}</button>
+{% endif %}
+<br><br><br>
+    <form action='{{ path('show products') }}'>
+      <button type="button" class="btn btn-block btn-primary btn-sm">Products</button>
+    </form>
+<br>
+    <form action='{{ path('view cart') }}'>
+      <button type="submit" class="btn btn-block btn-primary btn-sm">Cart</button>
+    </form>
+</li>
+
+<br>
+{# VALIDATE IF USER LOGGED OR NOT #}
+{% if app.user %}
+     {# user is logged in  #}
+     {# when user click on button call logout method  #}
+     {# in FOSUserBundle to make logout from the application  #}
+     {# using ['logout_path('main')'] which generate its url  #}
+
+     <form action='{{ logout_path('main') }}'>
+       <button type="submit" class="btn btn-block btn-primary btn-sm">Log Out</button>
+     </form>
+{% else %}
+   {# user is not logged in  #}
+   {# when user click on button call login form  #}
+   {# using default login calling in FOSUSERBUNDLE   #}
+   {#      ['fos_user_security_login']   #}
+   {# using path() method to generate url to it   #}
+   <form action='{{ path('fos_user_security_login') }}'>
+     <button type="submit" class="btn btn-block btn-primary btn-sm">Log In</button>
+   </form>
+   <br>
+   {# when user click on button call register form  #}
+   {# using default register calling in FOSUSERBUNDLE   #}
+   {#      ['fos_user_registration_register']   #}
+   {# using path() method to generate url to it   #}
+   <form action='{{ path('fos_user_registration_register') }}'>
+     <button type="submit" class="btn btn-block btn-primary btn-sm">Register</button>
+   </form>
+{% endif %}
+</li
+
+{% endblock %}
+
+{#  this is the content of show product view #}
+{% block page_content %}
+
+{#  this is the for loop to view all products #}
+
+    {% for product in products %}
+    <div class="col-md-3 col-sm-6 col-xs-12">
+    <a href="{{ path('show product', {'productId': product.getId()}) }}" class="small-box-footer">
+            <div class="info-box">
+              <span class="info-box-icon bg-gray">
+              <img style='align:center; width: 80px; height: 50px' src='{{  asset('bundles/uploads/' ~ product.getPath()) }}' alt='' />
+            </span>
+      </a>
+
+              <div class="info-box-content">
+                <span class="info-box-text">{{ product.getName() }}</span>
+                <span class="info-box-number">{{ product.getPrice() }} $</span>
+              </div>
+
+            </div>
+            <!-- /.info-box -->
+    </div>
+    {% endfor %}
+{% endblock  %}
