@@ -38,7 +38,7 @@ Its so simple one using symfony2 and mysql database using Doctrine ORM to handle
                admin_skin: skin-blue
        
        -  You will find in the project folder file named ==>>  cart.sql
-           create database call it [car] and then import this file to it
+           create database call it [cart] and then import this file to it
            if you wanna name database any other name so do it but before start project go to
                   <  /app/config/parameters.yml   >
               Then change the database data by your data.
